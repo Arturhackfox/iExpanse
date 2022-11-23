@@ -47,11 +47,8 @@ struct addExpense: View {
             .toolbar{
                 Button("Save"){
                     let newExpense = ExpenseItems(name: name, type: type, amount: amount)
-                    if newExpense.type == "Personal"{
-                        expenses.itemsPersonal.append(newExpense)
-                    } else {
-                        expenses.itemsBusiness.append(newExpense)
-                    }
+                  
+                    expenses.items.append(newExpense)
                    
                     
                     dismiss()

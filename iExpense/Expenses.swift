@@ -9,39 +9,37 @@ import Foundation
 
 
 class Expenses: ObservableObject {
-    @Published var itemsPersonal = [ExpenseItems](){
+    
+    var personalItem: [ExpenseItems] {
+        get { items.filter{ $0.type == "Personal"} }
+        set { }
+    }
+    
+    var businessItem: [ExpenseItems] {
+        get { items.filter{ $0.type == "Business"}}
+        set { }
+    }
+    
+    @Published var items = [ExpenseItems](){
         didSet{
-            if let encoded = try? JSONEncoder().encode(itemsPersonal){
-                UserDefaults.standard.set(encoded, forKey: "ItemsP")
+            if let encoded = try? JSONEncoder().encode(items){
+                UserDefaults.standard.set(encoded, forKey: "Items")
             }
              
         }
     }
     
-    @Published var itemsBusiness = [ExpenseItems](){
-        didSet{
-            if let encoded = try? JSONEncoder().encode(itemsBusiness){
-                UserDefaults.standard.set(encoded, forKey: "ItemsB")
-            }
-             
-        }
-    }
     
     init(){
-        if let savedItems = UserDefaults.standard.data(forKey: "ItemsP"){
+        if let savedItems = UserDefaults.standard.data(forKey: "Items"){
             if let decodedData = try? JSONDecoder().decode([ExpenseItems].self, from: savedItems){
-                itemsPersonal = decodedData
+                items = decodedData
                 return
             }
         }
-        
-        if let savedItems = UserDefaults.standard.data(forKey: "ItemsB"){
-            if let decodedData = try? JSONDecoder().decode([ExpenseItems].self, from: savedItems){
-                itemsBusiness = decodedData
-            }
-        }
-        itemsPersonal = []
-        itemsBusiness = []
+
+        items = []
+    
     }
     
 

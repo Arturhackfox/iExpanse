@@ -20,7 +20,7 @@ struct ContentView: View {
         NavigationStack{
             List{
                 Section("Personal"){
-                    ForEach(expenses.itemsPersonal){ item in
+                    ForEach(expenses.personalItem){ item in
                         HStack{
                             VStack(alignment: .leading){
                                 Text(item.name)
@@ -34,12 +34,12 @@ struct ContentView: View {
                                 .foregroundColor(item.amount >= 100 ? .red : .primary)
                         }
                     }
-                    .onDelete(perform: removeRowsPersonal)
+                    .onDelete(perform: removePersonalItems)
                 }
                 
                 
                     Section("Business"){
-                        ForEach(expenses.itemsBusiness){ item in
+                        ForEach(expenses.businessItem){ item in
                             HStack{
                                 VStack(alignment: .leading){
                                     Text(item.name)
@@ -54,7 +54,7 @@ struct ContentView: View {
                             }
                             
                         }
-                        .onDelete(perform: removeRowsBusiness)
+                        .onDelete(perform: removeBusinessItems)
                     }
  
                 
@@ -74,12 +74,20 @@ struct ContentView: View {
         
     }
     
-    func removeRowsPersonal(for index: IndexSet){
-        expenses.itemsPersonal.remove(atOffsets: index)
-    }
-    
-    func removeRowsBusiness(for index: IndexSet){
-        expenses.itemsBusiness.remove(atOffsets: index)
+    func removePersonalItems(at offsets: IndexSet) {
+        for item in offsets {
+            if let index = expenses.items.firstIndex(where: {$0.id == expenses.personalItem[item].id}) {
+                expenses.items.remove(at: index)
+            }
+        }
+      }
+  
+    func removeBusinessItems (at offsets: IndexSet) {
+        for i in offsets {
+            if let index = expenses.items.firstIndex(where: {$0.id == expenses.businessItem[i].id}){
+                expenses.items.remove(at: index)
+            }
+        }
     }
     
 }
