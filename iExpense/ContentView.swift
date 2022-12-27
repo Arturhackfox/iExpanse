@@ -32,10 +32,15 @@ struct ContentView: View {
                             Text(item.amount, format: .currency(code: "USD"))
                                 .font(item.amount < 10 ? .subheadline : .headline)
                                 .foregroundColor(item.amount >= 100 ? .red : .primary)
+                                .accessibilityHint(item.type == "Personal" ? "Personal" : "Business")
                         }
                     }
                     .onDelete(perform: removePersonalItems)
                 }
+                .accessibilityLabel("Personal")
+                .accessibilityValue("Expanse")
+            
+                
                 
                 
                     Section("Business"){
@@ -51,12 +56,19 @@ struct ContentView: View {
                                 Text(item.amount, format: .currency(code: "USD"))
                                     .font(item.amount < 10 ? .subheadline : .headline)
                                     .foregroundColor(item.amount >= 100 ? .red : .primary)
+                                    .accessibilityHint(item.type == "Personal" ? "Personal" : "Business")
                             }
+                            .accessibilityLabel("Personal")
+                            .accessibilityValue("Expanse")
                             
                         }
                         .onDelete(perform: removeBusinessItems)
                     }
+                    .accessibilityLabel("Business")
+
  
+                
+                
                 
             }
             .navigationTitle("iExpense")
